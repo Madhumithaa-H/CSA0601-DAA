@@ -1,0 +1,19 @@
+#include <stdio.h>
+int stringLength(char *str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    retui rn length;
+}
+int main() {
+    char str[100];
+    printf("Enter a string: ");
+    gets(str); 
+    int length = stringLength(str);
+    printf("Length of the string is %d\n", length);
+    return 0;
+}
+output
+Enter a string: i love u
+Length of the string is 8

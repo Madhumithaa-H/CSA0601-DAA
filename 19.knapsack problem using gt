@@ -1,0 +1,68 @@
+#include <stdio.h>
+struct Item {
+    int weight;
+    int profit;
+};
+void swap(struct Item* a, struct Item* b) {
+    struct Item temp = *a;
+    *a = *b;
+    *b = temp;
+}
+void sortItemsByRatio(struct Item items[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            double r1 = (double)items[i].profit / items[i].weight;
+            double r2 = (double)items[j].profit / items[j].weight;
+            if (r1 < r2) {
+                swap(&items[i], &items[j]);
+            }
+        }
+    }
+}
+double fractionalKnapsack(struct Item items[], int n, int capacity) {
+    sortItemsByRatio(items, n);
+
+    double totalValue = 0.0;
+    for (int i = 0; i < n; i++) {
+        if (items[i].weight <= capacity) {
+            capacity -= items[i].weight;
+            totalValue += items[i].profit;
+        } else {
+            totalValue += items[i].profit * ((double)capacity / items[i].weight);
+            break;
+        }
+    }
+    return totalValue;
+}
+int main() {
+    int n, capacity;
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
+    struct Item items[n];
+    for (int i = 0; i < n; i++) {
+        printf("Enter weight and profit for item %d: ", i + 1);
+        scanf("%d %d", &items[i].weight, &items[i].profit);
+    }
+    printf("Enter the capacity of the knapsack: ");
+    scanf("%d", &capacity);
+    double maxProfit = fractionalKnapsack(items, n, capacity);
+    printf("The maximum profit is: %.2f\n", maxProfit);
+    return 0;
+}
+output
+Enter the number of items: 10
+Enter weight and profit for item 1: 50 30
+Enter weight and profit for item 2: 30 20
+Enter weight and profit for item 3: 45
+34
+Enter weight and profit for item 4: 12
+13
+Enter weight and profit for item 5: 12 18
+Enter weight and profit for item 6: 12
+10
+Enter weight and profit for item 7: 71 90
+Enter weight and profit for item 8: 88 90
+Enter weight and profit for item 9: 45 37
+Enter weight and profit for item 10: 11 11
+Enter the capacity of the knapsack: 100
+The maximum profit is: 126.11
